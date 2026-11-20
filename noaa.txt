@@ -1,0 +1,2 @@
+past weater https://www.ncei.noaa.gov/access/past-weather/48.177685,-122.348589,47.677685,-121.848589
+future NOAA has a dedicated Global Historical Climatology Network Hourly (GHCNh) dataset and is actively migrating hourly precipitation products into it

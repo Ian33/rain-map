@@ -22,7 +22,7 @@ Expects (relative to this file):
     data/noaa_stations_in_wria.csv                  from helper_scripts/get_noaa_stations.py
     precip_data.py                                  next to this file
     WRIA_boundaries_derived_from_terrain_data.shp   searched for under this folder
-Writes cached precipitation to data/precip_cache/.
+
 
 Needs:  pip install dash dash-leaflet geopandas pandas
 Run:    python rain_map_app.py     then open http://127.0.0.1:8050
@@ -49,8 +49,6 @@ DATA_DIR = BASE_DIR / "data"
 CSV_PATH = DATA_DIR / "noaa_stations_in_wria.csv"
 SHAPEFILE_NAME = "WRIA_boundaries_derived_from_terrain_data.shp"
 # Under PyInstaller _MEIPASS is temporary, so cache next to the exe instead
-CACHE_ROOT = Path(sys.executable).parent if getattr(sys, "frozen", False) else BASE_DIR
-STORE = pdata.PrecipStore(CACHE_ROOT / "data" / "precip_cache")
 
 ELEMENT_SEP = "; "
 SIDEBAR_WIDTH = "350px"
@@ -137,17 +135,34 @@ def filter_stations(network: str | None, params: list[str] | None,
 
 
 def run_precip_query(period_key: str, network: str | None, params: list[str] | None) -> dict:
-    """Query NOAA for the stations currently selected; returns the JSON for the store."""
     periods = pdata.build_periods(date.today())
     period = periods[period_key]
+
     ids = filter_stations(network, params)["id"].tolist()
-    daily = STORE.get(period, ids)
+
+    daily = pdata.get_precip(period, ids)
+    # DEBUG 
+
+    
+    
+    daily[
+        daily["id"] == "USW00004205"
+    ].to_csv(
+        "debug/USW00004205_processed.csv",
+        index=False
+    )
+
     summary = pdata.summarize(daily, period, ids)
+
     totals = {
-        sid: {"mm": None if pd.isna(r.total_mm) else float(r.total_mm),
-              "days": int(r.days_reported), "expected": int(r.days_expected)}
+        sid: {
+            "mm": None if pd.isna(r.total_mm) else float(r.total_mm),
+            "days": int(r.days_reported),
+            "expected": int(r.days_expected),
+        }
         for sid, r in summary.iterrows()
     }
+
     return {
         "period": period_key,
         "label": period.label,
@@ -155,7 +170,6 @@ def run_precip_query(period_key: str, network: str | None, params: list[str] | N
         "n_requested": len(ids),
         "totals": totals,
     }
-
 
 def fmt_precip(mm: float, unit: str) -> str:
     return f"{pdata.mm_to_inches(mm):.2f} in" if unit == "in" else f"{mm:.1f} mm"

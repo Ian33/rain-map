@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>King County</origin>
+				<pubdate>20061002</pubdate>
+				<title>WRIA boundaries derived from terrain data</title>
+				<edition>One</edition>
+				<geoform>vector digital data</geoform>
+				<pubinfo>
+					<pubplace>King County, WA</pubplace>
+					<publish>King County</publish>
+				</pubinfo>
+				<othercit>None</othercit>
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>Watershed Resource Inventory Area. WRIA planning units were established under Washington Administrative Code (WAC 173-500). Planning and implementation of environmental stewardships are codified in Revised Code of Washington State (RCW 90.82). WRIAs are generally delineated to capture large watersheds in Washington State. For example WRIA 9 includes The Green/Duwamish River basins and Puget sound nearshores west of the watershed. WRIA 8 include the Greater Lake Washington watershed and it’s adjacent Puget sound nearshore lands. Hence they are a composite of watershed drainage areas that include a river basin(s) and also small tributary areas that directly drain to the Puget sound. These WRIA boundaries were revised using digital elevation models.</abstract>
+			<purpose>Watershed Resource Inventory Area (WRIA) are planning units established under Washington Administrative Code.</purpose>
+			<supplinf>Topo_Catchment is the master layer and is dissolved to produce Topo_Basin, Topo_Watershed, and Topo_WRIA by attributes.</supplinf>
+		</descript>
+		<timeperd>
+			<timeinfo>
+				<rngdates>
+					<begdate>20050601</begdate>
+					<enddate>20061004</enddate>
+				</rngdates>
+			</timeinfo>
+			<current>publication date</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>As needed</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>-122.888416</westbc>
+				<eastbc>-120.905212</eastbc>
+				<northbc>48.479267</northbc>
+				<southbc>46.580925</southbc>
+			</bounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>Not applicable</themekt>
+				<themekey>hydro</themekey>
+				<themekey>hydrology</themekey>
+				<themekey>none</themekey>
+			</theme>
+			<place>
+				<placekt>Not applicable</placekt>
+				<placekey>Pacific NW</placekey>
+				<placekey>Washington state</placekey>
+				<placekey>King County</placekey>
+				<placekey>WA</placekey>
+			</place>
+		</keywords>
+		<accconst>None</accconst>
+		<useconst>King County data are made available with the understanding that they shall be used exclusively by the obtainer or his/her authorized agents. Digital products may not be reproduced or redistributed in any form or by any means without the express written authorization of King County.</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>King County Dept. of Natural Resources and Parks, Water and Lands Resources Division</cntorg>
+					<cntper>Ken Rauscher</cntper>
+				</cntorgp>
+				<cntpos>GIS Analyst</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>201 S Jackson St, Suite 706</address>
+					<city>Seattle</city>
+					<state>WA</state>
+					<postal>98104</postal>
+					<country>US</country>
+				</cntaddr>
+				<cntvoice>206-296-1922</cntvoice>
+				<cntemail>firstname.lastname@kingcounty.gov</cntemail>
+			</cntinfo>
+		</ptcontac>
+		<browse>
+			<browsen>http://www5.kingcounty.gov/sdc/DataImages/topo_wria.jpg</browsen>
+			<browsed>JPG File of layer overlain on base of WA counties or local cities</browsed>
+			<browset>JPG</browset>
+		</browse>
+		<native>Esri ArcGIS 13.5.0.57366</native>
+	</idinfo>
+	<dataqual>
+		<attracc>
+			<attraccr>All attributes in DRNBASIN have been transfered to Topo_Catchment except for COUNTY and ACRES.</attraccr>
+		</attracc>
+		<logic>Not all Catchment or Sub-Basin polygons have a Identification attribute value. Some catchments outside of King County have no ID value. Not all Basins have Sub-Basins.</logic>
+		<complete>Topo_Catchment replaces DRNBASIN completely. The area that was updated is King County's Lidar extent. This includes all of King County and Basins in Snohomish that are part of the Lake Washington - Cedar Watershed.</complete>
+		<lineage>
+			<procstep>
+				<procdesc>Split Upper White River basin into 4 basins: Lower White 100304, Greenwater 10036, Westfork 100305, Upper White stays 100303. Spit Skykomish basin into 6 basins: North Fork 70110, South Fork 70111, Beckler 70113, Miller 70112, Foss 70114, Tye 70115. Corrected Thorton &amp; North Fork Tolt basin boundaries.</procdesc>
+			</procstep>
+			<procstep>
+				<procdesc>Each time TOPO_CATCHMENT is updated this feature class is updated by a dissolve.</procdesc>
+			</procstep>
+			<procstep>
+				<procdesc>For each HYDROBASIN or TOPO_BASIN, a project area is built in Arc/Info 9.1 using the AML build_dem.aml. This AML builds a 2000 foot buffered Digital Elevation Model, Accumulation, and Slope grids for the basin area using the Bare Earth or Digital Ground Model Lidar grids. Clip existing WTRCRS per DRNBASIN's attribute BASIN_NAME or HYDROBASIN area. Import WTRCRS to a personal geodatabase. For WTRCRS, add field attributes DEPTH (Short, 4) for DEM "Stream Burning" of water courses, RATE (Short, 4) for geometry accuracy rating, and NOTES (Text, 254) for additional information for each line. Create polygon Shapefiles "DEMFIX" and point "PRPT" for each basin. Add field attribute DEPTH (Short, 4) to shapefile "DEMFIX" for DEM "Stream Burning" of water courses. Add attribute "CATCHMENT" (Text, 40) to "PRPT" for joining to existing DRNBASIN Polygon Attribute Table</procdesc>
+				<procdate>20061004</procdate>
+			</procstep>
+			<procstep>
+				<procdesc>Create Arcmap project per basin and add basin data. Correct WTRCRS geometry using KC and USGS 2002 orthophotos, Lidar products elevation, slope, hillshade, and contours for referance in Arcmap. Place shapefile PRPT Pour Points per existing DRNBASIN catchments. Calc catchment ID to PRPT attribute "CATCHMENT". Add "DEMFIX" polygons as needed to facilitated water flow over obstacles i.e. roads crossing streams and calculate a depth. Export geodatabase WTRCRS to shapefile WTRCRS After the basin WTRCRS is corrected and Pour Points added for each catchment, the AML mk_ws.aml (Make Watershed) is used to produce the catchments for each basin. The mk_ws.aml converts shapefiles WTRCRS, DEMFIX, and PRPT to coverages. The lines of WTRCRS and polygons of DEMFIX are converted to grids. The grids "burn" or subtract cell values for a stream course into the DEM using the DEPTH value to facilitate the correct flow path though the DEM. Fills the DEM for sinkholes, Finds Flow Direction of the DEM, and the Flow Accumulation of cells. The cells with greater than 40,000 cells flowing into them are extracted to grid STRM40KG, then converted to coverage STRM40KG. PRPT coverage is converted to grid, then snaped using Grid command snappour to the STRM40KG grid. The Grid command WATERSHED deliniates the catchement watershed boundaries to grid WSG (Watershed Grid). Grid WSG is converted to coverage WS (Watershed). In ArcEdit, the existing label points in WS are replaced with the PRPT point labels that have the catchment attribute. The WS is polygon rebuilt, then blank attribute polygons are deleted, and duplicate catchments are dissolved by the same catchment ID. The WS coverage is converted to the shapefile: WSC.</procdesc>
+				<procdate>20061004</procdate>
+			</procstep>
+			<procstep>
+				<procdesc>A copy of bigwater is edited to delete the rivers. An existing old copy of DRNBASIN was updated with the modified bigwater layer using the command UPDATE. The updated DRNBASIN is cleaned up to eliminate slivers between bigwater and dnrbasin. The conflated DRNBASIN to Bigwater is UPDATED with DRNBASIN_NEW, dissolved using the attribute catchment to produce the new drnbasin TOPO_CATCHMENT. TOPO_CATCHMENT is cleaned of slivers, then the 3 child products (Basin, Watershed, and WRIA) are dissolved from topo_catchment. All four levels of topo_catchment are clipped with the King County boundary to produce TOPO_CATCHMENT_KC, TOPO_BASIN_KC, TOPO_WATERSHED_KC, and TOPO_WRIA_KC.</procdesc>
+				<procdate>20061004</procdate>
+			</procstep>
+			<procstep>
+				<procdesc>All King County WSC shapefile basins are fitted together using ArcGIS ArcToolBox command Integrate at 15 feet tolerance. Basins are merged together using the ArcToolBox Merge command into a GeoDataBase called DRNBASIN_NEW. Topology is created using "No Gaps" and "No Overlaps" rules. All topology errors are fixed in DRNBASIN_NEW.</procdesc>
+				<procdate>20061004</procdate>
+			</procstep>
+			<procstep>
+				<procdesc>Quality control was done by comparing the original DRNBASIN catchments IDs to the new Topo_Catchment catchment IDs. Any missing catchments were added by using the command UPDATE and then MERGING of the sliver polygons generated from the UPDATE around the polygon. Multi part polygons caused by the original MERGING and UPDATE corrections were EXPLODED then MERGED using DRNBASIN as a guide.</procdesc>
+				<procdate>20061017</procdate>
+			</procstep>
+		</lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct>Vector</direct>
+		<ptvctinf>
+			<sdtsterm>
+				<sdtstype>GT-polygon composed of chains</sdtstype>
+				<ptvctcnt>11</ptvctcnt>
+			</sdtsterm>
+		</ptvctinf>
+	</spdoinfo>
+	<eainfo>
+		<detailed>
+			<enttyp>
+				<enttypl>plibrary.HYDRO.topo_wria_area</enttypl>
+			</enttyp>
+			<attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature Geometry</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features</udom>
+				</attrdomv>
+			</attr>
+			<attr>
+				<attrlabl>OBJECTID</attrlabl>
+				<attrdef>Internal feature number.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Sequential unique whole numbers that are automatically generated.</udom>
+				</attrdomv>
+			</attr>
+			<attr>
+				<attrlabl>WRIA_NO</attrlabl>
+			</attr>
+			<attr>
+				<attrlabl>WRIA_NAME</attrlabl>
+			</attr>
+			<attr>
+				<attrlabl>Shape.STArea()</attrlabl>
+			</attr>
+			<attr>
+				<attrlabl>Shape.STLength()</attrlabl>
+			</attr>
+		</detailed>
+		<detailed>
+			<enttyp>
+				<enttypl>maint.WLR.topo_wria_area</enttypl>
+				<enttypds>ESRI</enttypds>
+			</enttyp>
+			<attr>
+				<attrlabl>WRIA_NO</attrlabl>
+			</attr>
+			<attr>
+				<attrlabl>SHAPE</attrlabl>
+				<attrdef>Feature geometry.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.</udom>
+				</attrdomv>
+			</attr>
+			<attr>
+				<attrlabl>WRIA_NAME</attrlabl>
+			</attr>
+			<attr>
+				<attrlabl>Shape.area</attrlabl>
+			</attr>
+		</detailed>
+		<overview>
+			<eaover>Topo_Catchment contains all the attributes that are dissolved to form the 3 child layers: Topop_Basin, Topo_Watershed, and Topo_WRIA.</eaover>
+		</overview>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>KCGIS Center</cntorg>
+					<cntper>Cheryl Wilder</cntper>
+				</cntorgp>
+				<cntpos>Data Sales Coordinator</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>201 S Jackson St, Suite 700</address>
+					<city>Seattle</city>
+					<state>WA</state>
+					<postal>98104</postal>
+					<country>US</country>
+				</cntaddr>
+				<cntvoice>206-263-5220</cntvoice>
+			</cntinfo>
+		</distrib>
+		<resdesc>/plibrary2/hydro/shapes/polygon/topo_wria.shp</resdesc>
+		<distliab>King County disclaims any warranty of use of any digital product or data beyond that for which it was designed.</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>ESRI Shapefile</formname>
+				</digtinfo>
+				<digtopt>
+					<onlinopt>
+					</onlinopt>
+				</digtopt>
+			</digform>
+			<fees>Contact KCGIS Client Services for the cost of reproduction - http://www.kingcounty.gov/operations/GIS/ClientServices.aspx</fees>
+		</stdorder>
+	</distinfo>
+	<metainfo>
+		<metd>20260401</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>King County Dept. of Natural Resources and Parks, Water and Lands Resources Division</cntorg>
+					<cntper>Ken Rauscher</cntper>
+				</cntorgp>
+				<cntpos>GIS Analyst</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>201 S Jackson St, Suite 706</address>
+					<city>Seattle</city>
+					<state>WA</state>
+					<postal>98104</postal>
+					<country>US</country>
+				</cntaddr>
+				<cntvoice>206-296-1922</cntvoice>
+				<cntemail>firstname.lastname@kingcounty.gov</cntemail>
+			</cntinfo>
+		</metc>
+		<metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+		<mettc>local time</mettc>
+	</metainfo>
+	<Esri><CreaDate>20261119</CreaDate><CreaTime>06313400</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce></Esri></metadata>
